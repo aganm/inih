@@ -246,6 +246,8 @@ int ini_parse_file(FILE* file, ini_handler handler, void* user)
     return ini_parse_stream((ini_reader)fgets, file, handler, user);
 }
 
+static const char* parsed_filename = "";
+
 /* See documentation in header file. */
 int ini_parse(const char* filename, ini_handler handler, void* user)
 {
@@ -255,9 +257,18 @@ int ini_parse(const char* filename, ini_handler handler, void* user)
     file = fopen(filename, "r");
     if (!file)
         return -1;
+
+    parsed_filename = filename;
     error = ini_parse_file(file, handler, user);
+    parsed_filename = "";
+
     fclose(file);
     return error;
+}
+
+const char* ini_parsed_filename(void)
+{
+    return parsed_filename;
 }
 
 /* An ini_reader function to read the next line from a string buffer. This
