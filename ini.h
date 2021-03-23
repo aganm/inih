@@ -75,6 +75,9 @@ typedef char* (*ini_reader)(char* str, int num, void* stream);
 */
 INI_API int ini_parse(const char* filename, ini_handler handler, void* user);
 
+/* Retrieve the name of the file that is currently being parsed. */
+const char* ini_parsed_filename(void);
+
 /* Same as ini_parse(), but takes a FILE* instead of filename. This doesn't
    close the file when it's finished -- the caller must do that. */
 INI_API int ini_parse_file(FILE* file, ini_handler handler, void* user);
